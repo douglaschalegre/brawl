@@ -1,5 +1,6 @@
-from sqlalchemy import Column, Integer, String, DateTime, func
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, func
 from datetime import datetime
+
 
 from database import Base
 
@@ -9,8 +10,8 @@ class Tournament(Base):
     title: str = Column(String(100), nullable=False)
     description: str = Column(String(255), nullable=False)
     image: str = Column(String(255), nullable=False)
-    registrationUrl: str = Column(String(255), nullable=True)
-    category: str = Column(String(255), nullable=True)
+    url: str = Column(String(255), nullable=True)
+    categoryId: int = Column(Integer, ForeignKey("category.id"))
     date: datetime = Column(DateTime, nullable=False)
     createdAt: datetime = Column(DateTime, nullable=False, server_default=func.now())
     updatedAt: datetime = Column(DateTime, nullable=False, onupdate=func.now())

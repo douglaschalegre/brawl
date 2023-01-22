@@ -5,6 +5,7 @@ class CategoryBase(BaseModel):
   id: int
   name: str
   image: str
+  tournament: int
   createdAt: datetime
   updatedAt: datetime
 

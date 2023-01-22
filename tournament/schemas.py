@@ -6,8 +6,8 @@ class TournamentBase(BaseModel):
   title: str
   description: str
   image: str
-  registrationUrl: str
-  category: str
+  url: str
+  categoryId: int
   date: datetime
   createdAt: datetime
   updatedAt: datetime
