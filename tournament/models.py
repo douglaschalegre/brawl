@@ -1,7 +1,6 @@
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, func
 from datetime import datetime
 
-
 from database import Base
 
 class Tournament(Base):
@@ -13,5 +12,5 @@ class Tournament(Base):
     url: str = Column(String(255), nullable=True)
     categoryId: int = Column(Integer, ForeignKey("category.id"))
     date: datetime = Column(DateTime, nullable=False)
-    createdAt: datetime = Column(DateTime, nullable=False, server_default=func.now())
-    updatedAt: datetime = Column(DateTime, nullable=False, onupdate=func.now())
+    createdAt: datetime = Column(DateTime, server_default=func.now())
+    updatedAt: datetime = Column(DateTime, onupdate=func.now())

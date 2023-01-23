@@ -1,6 +1,8 @@
 from fastapi import Depends, HTTPException, status, Response
 from sqlalchemy.orm import Session
 
+from category.repositories import CategoryRepository
+
 from database import get_db
 from tournament.models import Tournament
 from tournament.repositories import TournamentRepository
@@ -13,6 +15,10 @@ router = APIRouter()
 
 @router.post("/api/tournaments", response_model=TournamentResponse, status_code=status.HTTP_201_CREATED)
 def create_tournament(request: TournamentRequest, db: Session = Depends(get_db)):
+    if not CategoryRepository.exists_by_id(db, request.categoryId):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="CategoryId not found"
+        )
     tournament = TournamentRepository.save(db, Tournament(**request.dict()))
     return TournamentResponse.from_orm(tournament)
 

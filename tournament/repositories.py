@@ -1,7 +1,6 @@
 from sqlalchemy.orm import Session
 
 from tournament.models import Tournament
-
 class TournamentRepository:
     @staticmethod
     def find_all(db: Session) -> list[Tournament]:
