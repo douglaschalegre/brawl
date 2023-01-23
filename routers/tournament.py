@@ -2,6 +2,7 @@ from fastapi import Depends, HTTPException, status, Response
 from sqlalchemy.orm import Session
 
 from database import get_db
+from tournament.models import Tournament
 from tournament.repositories import TournamentRepository
 from tournament.schemas import TournamentRequest, TournamentResponse
 
@@ -12,22 +13,22 @@ router = APIRouter()
 
 @router.post("/api/tournaments", response_model=TournamentResponse, status_code=status.HTTP_201_CREATED)
 def create_tournament(request: TournamentRequest, db: Session = Depends(get_db)):
-    Tournament = TournamentRepository.save(db, Tournament(**request.dict()))
-    return TournamentResponse.from_orm(Tournament)
+    tournament = TournamentRepository.save(db, Tournament(**request.dict()))
+    return TournamentResponse.from_orm(tournament)
 
 @router.get("/api/tournaments", response_model=list[TournamentResponse])
 def find_all_tournaments(db: Session = Depends(get_db)):
-    Tournaments = TournamentRepository.find_all(db)
-    return [TournamentResponse.from_orm(Tournament) for Tournament in Tournaments]
+    tournaments = TournamentRepository.find_all(db)
+    return [TournamentResponse.from_orm(tournament) for tournament in tournaments]
 
 @router.get("/api/tournaments/{id}", response_model=TournamentResponse)
 def find_tournament_by_id(id: int, db: Session = Depends(get_db)):
-    Tournament = TournamentRepository.find_by_id(db, id)
-    if not Tournament:
+    tournament = TournamentRepository.find_by_id(db, id)
+    if not tournament:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Tournament not found"
         )
-    return TournamentResponse.from_orm(Tournament)
+    return TournamentResponse.from_orm(tournament)
 
 @router.delete("/api/tournaments/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_tournament_by_id(id: int, db: Session = Depends(get_db)):
@@ -44,5 +45,5 @@ def update_tournament(id: int, request: TournamentRequest, db: Session = Depends
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Tournament not found"
         )
-    Tournament = TournamentRepository.save(db, Tournament(id=id, **request.dict()))
-    return TournamentResponse.from_orm(Tournament)
+    tournament = TournamentRepository.save(db, Tournament(id=id, **request.dict()))
+    return TournamentResponse.from_orm(tournament)
