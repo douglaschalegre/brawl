@@ -10,7 +10,5 @@ class CategoryRequest(CategoryBase):
 
 class CategoryResponse(CategoryBase):
     id: int
-    createdAt: datetime
-    updatedAt: datetime
     class Config:
         orm_mode = True

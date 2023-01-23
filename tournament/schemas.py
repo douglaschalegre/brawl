@@ -14,7 +14,5 @@ class TournamentRequest(TournamentBase):
 
 class TournamentResponse(TournamentBase):
     id: int
-    createdAt: datetime
-    updatedAt: datetime
     class Config:
         orm_mode = True

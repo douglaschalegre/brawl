@@ -13,4 +13,4 @@ class Tournament(Base):
     categoryId: int = Column(Integer, ForeignKey("category.id"))
     date: datetime = Column(DateTime, nullable=False)
     createdAt: datetime = Column(DateTime, server_default=func.now())
-    updatedAt: datetime = Column(DateTime, onupdate=func.now())
+    updatedAt: datetime = Column(DateTime, server_default=func.now(), onupdate=func.now())
